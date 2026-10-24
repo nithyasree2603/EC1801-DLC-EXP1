@@ -21,11 +21,63 @@ exp1_boolean_min.vcd	VCD waveform dump generated during simulation
 
 ## Verilog Program
 
-
+module boolfun (
+input wire A, 
+input wire B, 
+input wire C, 
+input wire D, 
+output wire F 
+); 
+assign F = (~B & ~D)|(B & D) ;    // F = B'D' + BD 
+endmodule
 
 ## TestBench Program
 
+module boolfun_tb;
 
+reg A, B, C, D;
+wire F;
+
+boolfun uut (
+    .A(A),
+    .B(B),
+    .C(C),
+    .D(D),
+    .F(F)
+);
+
+initial begin
+
+    $dumpfile("boolfun.vcd");
+    $dumpvars(0, boolfun_tb);
+
+    $monitor("Time=%0t A=%b B=%b C=%b D=%b F=%b",
+              $time, A, B, C, D, F);
+
+    A=0; B=0; C=0; D=0; #10;
+    A=0; B=0; C=0; D=1; #10;
+    A=0; B=0; C=1; D=0; #10;
+    A=0; B=0; C=1; D=1; #10;
+
+    A=0; B=1; C=0; D=0; #10;
+    A=0; B=1; C=0; D=1; #10;
+    A=0; B=1; C=1; D=0; #10;
+    A=0; B=1; C=1; D=1; #10;
+
+    A=1; B=0; C=0; D=0; #10;
+    A=1; B=0; C=0; D=1; #10;
+    A=1; B=0; C=1; D=0; #10;
+    A=1; B=0; C=1; D=1; #10;
+
+    A=1; B=1; C=0; D=0; #10;
+    A=1; B=1; C=0; D=1; #10;
+    A=1; B=1; C=1; D=0; #10;
+    A=1; B=1; C=1; D=1; #10;
+
+    $finish;
+end
+
+endmodule
 
 
 
@@ -84,6 +136,7 @@ was minimized to F=B'D'+BD.
 and successfully implemented using Verilog HDL.
 
 ## OUTPUT
+<img width="1847" height="1020" alt="Screenshot 2026-10-23 114041" src="https://github.com/user-attachments/assets/45663f47-3f88-4b9c-af00-cf8a90782293" />
 
 
 
